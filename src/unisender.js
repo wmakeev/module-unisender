@@ -1,6 +1,8 @@
 'use strict'
 
+const { maybe } = require('maybes')
 const Unisender = require('@wmakeev/unisender')
+const errors = require('./errors')
 
 class UnisenderModule {
   constructor (sb) {
@@ -22,7 +24,34 @@ class UnisenderModule {
   }
 
   callMethod (methodName, options) {
-    return this.api[methodName](options).then(res => res.result)
+    return this.api[methodName](options)
+      .then(response => response.result)
+      .catch(response => {
+        let error = maybe(response)
+          .filter(res => res.code && res.error)
+          .map(res => {
+            if (errors[res.code]) {
+              res.description = errors[res.code]
+            } else {
+              res.description = errors.unknown
+            }
+            return res
+          })
+          .map(res => {
+            let err = new Error('Unisender: ' + res.description)
+            err.code = res.code
+            err.error = res
+            return err
+          })
+
+        if (error.isJust()) {
+          return Promise.reject(error.just())
+        } else {
+          error = new Error('Unisender: неизвестная ошибка')
+          error.error = response
+          return Promise.reject(error)
+        }
+      })
   }
 
   sendSms (options) {
