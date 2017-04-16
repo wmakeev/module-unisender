@@ -10,59 +10,54 @@ module-unisender
 [![bitHound](https://img.shields.io/bithound/code/github/wmakeev/module-unisender.svg?maxAge=1800&style=flat-square)](https://www.bithound.io/github/wmakeev/module-unisender)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-> This is an example file with maximal choices selected.
-
-This is a long description.
+> Unisender module.
 
 ## Table of Contents
 
-- [Security](#security)
-- [Background](#background)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
-- [Contribute](#contribute)
-- [License](#license)
 
-## Security
-
-### Any optional sections
-
-## Background
-
-### Any optional sections
-
-## Install
-
-This module depends upon a knowledge of [Markdown]().
+## Installation
 
 ```
+$ npm i @wmakeev/module-unisender
 ```
-
-### Any optional sections
 
 ## Usage
 
-```
-```
+```js
+let UnisenderModule = require('@wmakeev/module-unisender')
 
-### Any optional sections
+let instance = UnisenderModule(someSandbox)
+
+instance.init({ apiKey: 'you_api_key' })
+
+let result = await instance.sendSms({
+  phone: '79226090705',
+  sender: 'TEST',
+  text: 'SMS text'
+})
+
+assert.deepEqual(result, {
+  currency: 'USD',
+  phone: '79226090705',
+  price: 0.0289,
+  sms_id: 14425539
+})
+```
 
 ## API
 
-### Any optional sections
+### instance.init(): void
 
-## More optional sections
+### instance.destroy(): void
 
-## Contribute
+### instance.callMethod(method: string, options: object): Promise<object>
 
-See [the contribute file](contribute.md)!
+### instance.sendSms(options: object): Promise<object>
 
-PRs accepted.
-
-Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
-
-### Any optional sections
+Alias to `sendSms` method call
 
 ## License
 
