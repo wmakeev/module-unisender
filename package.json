@@ -1,6 +1,6 @@
 {
   "name": "@wmakeev/module-unisender",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unisender module",
   "main": "index.js",
   "files": [
@@ -36,11 +36,10 @@
     "node": ">=4"
   },
   "dependencies": {
-    "@wmakeev/unisender": "^1.0.3",
-    "have2": "^1.0.0-beta.1",
-    "nock": "^9.0.11"
+    "@wmakeev/unisender": "^1.0.3"
   },
   "devDependencies": {
+    "nock": "^9.0.11",
     "babel-cli": "^6.24.0",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
