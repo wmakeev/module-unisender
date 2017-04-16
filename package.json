@@ -1,6 +1,6 @@
 {
   "name": "@wmakeev/module-unisender",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Unisender module",
   "main": "index.js",
   "files": [
