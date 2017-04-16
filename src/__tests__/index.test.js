@@ -11,10 +11,10 @@ test('moduleUnisender', t => {
 })
 
 test('moduleUnisender instance', async t => {
-  let callMethodHandler
+  let handlers = {}
   let sb = {
     on: sinon.spy(function (ev, handler) {
-      if (ev === 'callMethod') callMethodHandler = handler
+      handlers[ev] = handler
     })
   }
 
@@ -22,11 +22,12 @@ test('moduleUnisender instance', async t => {
 
   t.equal(typeof instance, 'object', 'should be object')
   t.ok(instance.init, 'should have init method')
-  t.notOk(callMethodHandler)
+  t.equal(Object.keys(handlers).length, 0, 'should not register handlers')
 
   instance.init({ apiKey: 'some-key' })
-  t.ok(sb.on.calledOnce)
-  t.equal(typeof callMethodHandler, 'function', 'should add `callMethod` event handler')
+  t.equal(sb.on.callCount, 2)
+  t.deepEqual(Object.keys(handlers),
+    ['callMethod', 'sendSms'], 'should register handlers')
 
   // nock.recorder.rec({
   //   output_objects: false
@@ -56,7 +57,7 @@ test('moduleUnisender instance', async t => {
       '*'
     ])
 
-  let result = await callMethodHandler('sendSms', {
+  let result = await handlers.sendSms({
     phone: '79226090705',
     sender: 'TEST',
     text: 'SMS text'
